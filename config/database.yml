@@ -53,3 +53,5 @@ production:
   pool: 5
   username: recipes-web
   password:
+
+<%= IO.read('config/database.local.yml') if File.exists?('config/database.local.yml') %>

@@ -20,3 +20,4 @@ capybara-*.html
 /spec/tmp/*
 **.orig
 rerun.txt
+database.local.yml

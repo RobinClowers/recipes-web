@@ -6,6 +6,10 @@ gem 'json'
 
 gem 'bootstrap-sass'
 
+group :development do
+  gem 'haml-rails'
+end
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
