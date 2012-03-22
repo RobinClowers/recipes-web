@@ -1,2 +1,93 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+- content_for :head do
+  %title Recipes
+
+%h1 Recipes!
+%form#recipe-form
+  %ol.actions
+    %li
+      %button#edit-tag-groups Edit Tag Groups
+  %ol#selection.side-by-side
+    %li
+      %label Tags
+      %select#tag-list{:name => "tag-list", :size => "10"}
+    %li
+      %label List
+      %select#recipe-list{:name => "recipe-list", :size => "10"}
+  %ol#recipe-fields.fields
+    %li
+      %label{:for => "title"} Title
+      %input#title{:name => "title", :type => "text"}
+    %li
+      %label{:for => "tags"} Tags
+      %input#tags{:name => "tags", :type => "text"}
+    %li
+      %label{:for => "description"} Description
+      %textarea#description{:name => "description"}
+    %li.button
+      %button#save{:name => "save"} Save
+%form#tag-group-form
+  %ol.actions
+    %li
+      %button#show-recipes Show Recipes
+  %ol
+    %li
+      %select#tag-groups{:size => "10"}
+  %ol.fields
+    %li
+      %label{:for => "new-tag-group"} Tag Group
+      %input#new-tag-group{:type => "text"}
+    %li.button
+      %button#add-tag-group Add Tag Group
+  %ol#tag-group-fields.side-by-side
+    %li
+      %ol#ungrouped-tags.draggable
+    %li
+      %ol#current-tag-group.draggable
+:javascript
+  var recipeBook = new RecipeBook();
+
+  function addTagGroup(e) {
+    e.preventDefault();
+    recipeBook.addTagGroup();
+  }
+
+  function editTagGroups(e) {
+    e.preventDefault();
+    $('#recipe-form').hide();
+    $('#tag-group-form').show();
+  }
+
+  function showRecipes(e) {
+    e.preventDefault();
+    $('#tag-group-form').hide();
+    $('#recipe-form').show();
+  }
+
+  function saveClick(e) {
+    e.preventDefault();
+    recipeBook.saveRecipe();
+  }
+
+  function deleteRecipe() {
+    recipeBook.deleteRecipe(this.value);
+  };
+
+  function deleteTagGroup() {
+    recipeBook.deleteTagGroup(this.value);
+  };
+
+  $(function() {
+    recipeBook.init();
+    $('#add-tag-group').click(addTagGroup);
+    $('#edit-tag-groups').click(editTagGroups);
+    $('#show-recipes').click(showRecipes);
+    $('#save').click(saveClick);
+    $('#recipe-list').change(function() { recipeBook.changeRecipe(this.value); });
+    $('#tag-list').change(function() { recipeBook.filterRecipes(this.value); });
+    $('#tag-groups').change(function() { recipeBook.changeTagGroup(); });
+    $('#recipe-list').bind('keyup', 'del', deleteRecipe);
+    $('#tag-groups').bind('keyup', 'del', deleteTagGroup);
+    $('#description').wysiwyg({
+      initialContent: '',
+    });
+  });
