@@ -1,0 +1,56 @@
+ol
+  margin: 17px 0 0 40px
+  padding: 0
+  list-style-type: none
+  &.fields
+    width: 900px
+    li
+      padding-top: 5px
+      clear: both
+      &.button
+        text-align: right
+      label
+        vertical-align: top
+        text-align: right
+        width: 190px
+        display: inline-block
+      input[type=text]
+        width: 700px
+
+textarea
+  width: 700px
+
+ol
+  &.fields li
+    .wysiwyg
+      float: right
+    button
+      margin-right: 5px
+  &.side-by-side
+    li
+      vertical-align: top
+      display: inline-block
+    ol li
+      display: block
+  &#selection
+    width: 100%
+    li
+      select
+        min-width: 245px
+      label
+        display: block
+
+#tag-group-form
+  display: none
+
+ol
+  #tag-groups
+    min-width: 490px
+  #current-tag-group
+    min-height: 100px
+  &.draggable
+    cursor: pointer
+    background-color: #EEE
+    padding: 20px
+  &#tag-group-fields ol
+    min-width: 160px
