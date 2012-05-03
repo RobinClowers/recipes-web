@@ -30,6 +30,9 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     bootstrap-sass (2.0.0)
+    bson (1.6.2)
+    bson_ext (1.6.2)
+      bson (~> 1.6.2)
     builder (3.0.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -59,8 +62,16 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.17.2)
+    mongo (1.6.2)
+      bson (~> 1.6.2)
+    mongo_mapper (0.11.1)
+      activemodel (~> 3.0)
+      activesupport (~> 3.0)
+      plucky (~> 0.4.0)
     multi_json (1.1.0)
     pg (0.13.2)
+    plucky (0.4.4)
+      mongo (~> 1.5)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -111,10 +122,12 @@ PLATFORMS
 
 DEPENDENCIES
   bootstrap-sass
+  bson_ext
   coffee-rails (~> 3.2.1)
   haml-rails
   jquery-rails
   json
+  mongo_mapper
   pg
   rails (= 3.2.2)
   sass-rails (~> 3.2.3)
