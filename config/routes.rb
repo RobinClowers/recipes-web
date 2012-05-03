@@ -1,5 +1,5 @@
 RecipesWeb::Application.routes.draw do
-  get "home/index"
+  resources :recipes
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

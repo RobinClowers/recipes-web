@@ -16,9 +16,12 @@ end
 
 module RecipesWeb
   class Application < Rails::Application
+
     config.generators do |g|
       g.orm :mongo_mapper
     end
+
+    MongoMapper::Document.plugin(MongoMapper::Plugins::IdentityMap)
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
