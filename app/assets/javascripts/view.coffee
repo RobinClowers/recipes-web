@@ -23,7 +23,7 @@ deleteTagGroup = ->
   recipeBook.deleteTagGroup @value
 
 $ ->
-  recipeBook = new RecipeBook()
+  window.recipeBook = new RecipeBook()
   recipeBook.init()
   $("#add-tag-group").click addTagGroup
   $("#edit-tag-groups").click editTagGroups

@@ -5,17 +5,13 @@ class window.RecipeBook
       $("#description").wysiwyg "setContent", ""
       $("#tags").val ""
 
-    @currentId = ->
-      id = parseInt($("#recipe-list").val())
-      id is 0
-
     @isNewRecipe = ->
       id = parseInt($("#recipe-list").val())
       id is 0
 
     @newRecipe = ->
       @recipe =
-        id: @getNextId()
+        id: null
         name: ""
         description: ""
         tags: []
@@ -35,21 +31,16 @@ class window.RecipeBook
         return null  if item is ""
         item.trim()
 
-    @getNextId = ->
-      return 1  if @recipes.length is 0
-      @recipes[@recipes.length - 1].id + 1
-
     @load = =>
-      fileContents = $.twFile.load(@filePath)
-      console.log "file contents: " + fileContents
-      if fileContents
-        data = JSON.parse(fileContents)
-        @recipes = data.recipes
-        @tagGroups = data.tagGroups
+      $.getJSON('/recipes', @loadRecipes)
+
+    @loadRecipes = (recipes) =>
+      if recipes
+        @recipes = recipes
+        @tagGroups = []
       else
         @recipes = []
         @tagGroups = []
-      console.log @recipes
       @newRecipe()
       @buildTagIndex()
       @bindTags()
@@ -60,9 +51,9 @@ class window.RecipeBook
 
     @buildTagIndex = ->
       @tags = []
-      $.each @recipes, (index, recipe) ->
-        $.each recipe.tags, (tagIndex, tag) ->
-          @tags.push tag  unless _.include(@tags, tag)
+      for recipe in @recipes
+        for tag in recipe.tags
+          @tags.push tag unless _.include(@tags, tag)
 
     @bindTags = ->
       @buildTagIndex()
@@ -81,10 +72,9 @@ class window.RecipeBook
       list.find("option").remove()
       list.append $("<option />").val(0).text("New Recipe")
       list.val 0
-      noFilter = not @isFilterSet()
-      tagFilter = @tagFilter
-      $.each @recipes, ->
-        list.append $("<option />").val(@id).text(@title)  if noFilter or _.include(@tags, tagFilter)
+      for recipe in @recipes
+        if not @isFilterSet() or _.include(@tags, @tagFilter)
+          list.append $("<option />").val(recipe.id).text(recipe.title)
 
     @bindTagGroups = ->
       groups = $("#tag-groups")
@@ -96,13 +86,13 @@ class window.RecipeBook
     @bindCurrentTagGroup = ->
       tagList = $("#current-tag-group")
       tagList.find("li").remove()
-      _.each @tags, (tag) ->
+      for tag in @tags
         tagList.append $("<li>" + tag + "</li>").draggable()  if _.include(@currentTagGroup.tags, tag)
 
     @bindUngroupedTags = ->
       tagList = $("#ungrouped-tags")
       tagList.find("li").remove()
-      _.each @tags, (tag) ->
+      for tag in @tags
         tagList.append $("<li>" + tag + "</li>").draggable()  unless _.include(@currentTagGroup.tags, tag)
 
     @initializeTagGroups = ->
@@ -132,9 +122,6 @@ class window.RecipeBook
         recipes: @recipes
         tagGroups: @tagGroups
 
-      jsonData = JSON.stringify(data, null, 2)
-      $.twFile.save @filePath, jsonData
-
   init: =>
     filePath = document.location.href
     filePath = $.twFile.convertUriToLocalPath(filePath)
@@ -143,7 +130,7 @@ class window.RecipeBook
     @load()
 
   changeRecipe: (id) ->
-    if id is 0
+    if id is '0'
       @clearForm()
       return
     @recipe = @getRecipe(id)
@@ -162,13 +149,18 @@ class window.RecipeBook
     @currentTagGroup = _.find(@tagGroups, (group) ->
       group.name is groupName
     )
+    @currentTagGroup ||=
+      tags: []
     @bindCurrentTagGroup()
     @bindUngroupedTags()
 
   saveRecipe: ->
-    @recipes.push @recipe  if @isNewRecipe()
     @updateRecipe @recipe
-    save()
+    if @isNewRecipe()
+      @recipes.push @recipe
+      $.post("/recipes", @recipe)
+    else
+      $.post("/recipes/#{@recipe.id}", @recipe)
     @bindList()
     @bindTags()
     @changeRecipe @recipe.id
@@ -178,7 +170,10 @@ class window.RecipeBook
       @recipes = _.filter(@recipes, (recipe) ->
         recipe.id isnt id
       )
-      @save()
+      $.ajax(
+        url: "/recipes/#{@recipe.id}"
+        type: 'DELETE'
+        data: @recipe)
       @bindList()
       @buildTagIndex()
       @bindTags()
