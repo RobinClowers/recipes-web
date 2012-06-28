@@ -157,7 +157,7 @@ class window.RecipeBook
     @updateRecipe @recipe
     if @isNewRecipe()
       @recipes.push @recipe
-      $.post("/recipes", recipe: @recipe)
+      $.post("/recipes", recipe: @recipe, dataType: 'json')
     else
       $.ajax("/recipes/#{@recipe.id}",
         type: 'put'
@@ -175,6 +175,7 @@ class window.RecipeBook
       $.ajax(
         url: "/recipes/#{@recipe.id}"
         type: 'DELETE'
+        dataType: 'json'
         data: @recipe)
       @bindList()
       @buildTagIndex()
