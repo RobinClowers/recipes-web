@@ -2,14 +2,14 @@
   %title Recipes
 
 %form#tag-group-form.hero-unit
-  .span6
+  .span9
     %ol.actions
       %li
         %button#show-recipes Show Recipes
     %ol
       %li
         %select#tag-groups{:size => "10"}
-  .span6
+  .span9
     %ol.fields
       %li
         %label{:for => "new-tag-group"} Tag Group
@@ -21,6 +21,7 @@
         %ol#ungrouped-tags.draggable
       %li
         %ol#current-tag-group.draggable
+  .clear
 
 %form#recipe-form.hero-unit
   %ol.actions
