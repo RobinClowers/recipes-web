@@ -11,8 +11,7 @@ class window.RecipeBook
 
     @newRecipe = ->
       @recipe =
-        id: null
-        name: ""
+        title: ""
         description: ""
         tags: []
 
