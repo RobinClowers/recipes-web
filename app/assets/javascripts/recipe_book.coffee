@@ -72,7 +72,7 @@ class window.RecipeBook
       list.append $("<option />").val(0).text("New Recipe")
       list.val 0
       for recipe in @recipes
-        if not @isFilterSet() or _.include(@tags, @tagFilter)
+        if not @isFilterSet() or _.include(recipe.tags, @tagFilter)
           list.append $("<option />").val(recipe.id).text(recipe.title)
 
     @bindTagGroups = ->
