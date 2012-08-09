@@ -101,25 +101,20 @@ class window.RecipeBook
 
     @groupTag = (event, ui) =>
       newTag = @cloneTag(ui.draggable)
-      $(this).append newTag
+      $(event.target).append newTag
       @currentTagGroup.tags.push newTag.text()
-      @save()
+      @saveCurrentTagGroup()
 
     @ungroupTag = (event, ui) =>
       newTag = @cloneTag(ui.draggable)
-      $(this).append newTag
+      $(event.target).append newTag
       @currentTagGroup.tags = _.filter(@currentTagGroup.tags, (tag) ->
         tag isnt newTag.text()
       )
-      @save()
+      @saveCurrentTagGroup()
 
     @cloneTag = (tag) ->
       $(tag).remove().clone().removeAttr("style").draggable()
-
-    @save = ->
-      data =
-        recipes: @recipes
-        tagGroups: @tagGroups
 
   init: =>
     @load()
@@ -148,6 +143,15 @@ class window.RecipeBook
       tags: []
     @bindCurrentTagGroup()
     @bindUngroupedTags()
+
+  createTagGroup: (group) ->
+    $.post("/tag_groups", tag_group: group, dataType: 'json')
+
+  saveCurrentTagGroup: ->
+    $.ajax("/tag_groups/#{@currentTagGroup.id}",
+      type: 'put'
+      dataType: 'json'
+      data: tag_group: @currentTagGroup)
 
   saveRecipe: ->
     @updateRecipe @recipe
@@ -190,5 +194,5 @@ class window.RecipeBook
       tags: []
 
     @tagGroups.push group
-    @save()
+    @createTagGroup(group)
     @bindTagGroups()
