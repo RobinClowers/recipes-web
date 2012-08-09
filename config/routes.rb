@@ -1,4 +1,6 @@
 RecipesWeb::Application.routes.draw do
+  resources :tag_groups
+
   resources :recipes
 
   # The priority is based upon order of creation:

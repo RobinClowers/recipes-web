@@ -1,0 +1,12 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @tag_group.name
+%p
+  %b Tags:
+  = @tag_group.tags
+
+= link_to 'Edit', edit_tag_group_path(@tag_group)
+\|
+= link_to 'Back', tag_groups_path
