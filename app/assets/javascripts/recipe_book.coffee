@@ -99,19 +99,19 @@ class window.RecipeBook
       $("#current-tag-group").droppable drop: @groupTag
       $("#ungrouped-tags").droppable drop: @ungroupTag
 
-    @groupTag = (event, ui) ->
-      newTag = cloneTag(ui.draggable)
+    @groupTag = (event, ui) =>
+      newTag = @cloneTag(ui.draggable)
       $(this).append newTag
       @currentTagGroup.tags.push newTag.text()
-      save()
+      @save()
 
-    @ungroupTag = (event, ui) ->
-      newTag = cloneTag(ui.draggable)
+    @ungroupTag = (event, ui) =>
+      newTag = @cloneTag(ui.draggable)
       $(this).append newTag
       @currentTagGroup.tags = _.filter(@currentTagGroup.tags, (tag) ->
         tag isnt newTag.text()
       )
-      save()
+      @save()
 
     @cloneTag = (tag) ->
       $(tag).remove().clone().removeAttr("style").draggable()
