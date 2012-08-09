@@ -32,18 +32,21 @@ class window.RecipeBook
 
     @load = =>
       $.getJSON('/recipes', @loadRecipes)
+      $.getJSON('/tag_groups', @loadTagGroups)
 
     @loadRecipes = (recipes) =>
       if recipes
         @recipes = recipes
-        @tagGroups = []
       else
         @recipes = []
-        @tagGroups = []
       @newRecipe()
       @buildTagIndex()
       @bindTags()
       @bindList()
+      @changeTagGroup()
+
+    @loadTagGroups = (tagGroups) =>
+      @tagGroups = if tagGroups then tagGroups else []
       @bindTagGroups()
       @changeTagGroup()
       @initializeTagGroups()
