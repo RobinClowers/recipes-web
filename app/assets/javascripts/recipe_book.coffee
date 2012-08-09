@@ -122,10 +122,6 @@ class window.RecipeBook
         tagGroups: @tagGroups
 
   init: =>
-    filePath = document.location.href
-    filePath = $.twFile.convertUriToLocalPath(filePath)
-    filePath = filePath.replace(/index.html/, "")
-    @filePath = filePath + "data.json"
     @load()
 
   changeRecipe: (id) ->
