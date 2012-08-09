@@ -35,10 +35,7 @@ class window.RecipeBook
       $.getJSON('/tag_groups', @loadTagGroups)
 
     @loadRecipes = (recipes) =>
-      if recipes
-        @recipes = recipes
-      else
-        @recipes = []
+      @recipes = if recipes then recipes else []
       @newRecipe()
       @buildTagIndex()
       @bindTags()
