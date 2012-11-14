@@ -7,7 +7,6 @@ gem 'json'
 gem 'bootstrap-sass'
 
 group :development do
-  gem 'haml-rails'
 end
 
 group :test do
@@ -27,6 +26,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'haml-rails'
 gem 'jquery-rails'
 gem 'mongo_mapper'
 gem 'bson_ext'
