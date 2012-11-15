@@ -47,6 +47,7 @@ class window.RecipeBook
       @tagGroups = if tagGroups then tagGroups else []
       @bindTagGroups()
       @changeTagGroup()
+      @bindTagGroupList()
       @initializeTagGroups()
 
     @buildTagIndex = ->
@@ -60,11 +61,24 @@ class window.RecipeBook
       list = $("#tag-list")
       list.find("option").remove()
       list.append $("<option />").val("").text("All")
-      $.each @tags, (index, tag) ->
-        list.append $("<option />").val(tag).text(tag)
+      for tag in @tags
+        if not @isTagFilterSet() or _.include(@tagGroupFilter.tags, tag)
+          list.append $("<option />").val(tag).text(tag)
+      list.children().first().attr "selected", true
+
+    @bindTagGroupList = ->
+      list = $("#tag-group-list")
+      list.find("option").remove()
+      list.append $("<option />").val("").text("All")
+      $.each @tagGroups, (index, group) ->
+        list.append $("<option />").val(group.id).text(group.name)
+      list.children().first().attr "selected", true
 
     @isFilterSet = ->
       typeof (@tagFilter) isnt "undefined" and @tagFilter isnt ""
+
+    @isTagFilterSet = ->
+      typeof (@tagGroupFilter) isnt "undefined" and @tagGroupFilter isnt ""
 
     @bindRecipeList = ->
       list = $("#recipe-list")
@@ -133,6 +147,15 @@ class window.RecipeBook
   filterRecipes: (tag) ->
     @tagFilter = ""  if tag is ""
     @tagFilter = tag
+    @bindRecipeList()
+
+  filterTags: (tagGroupId) ->
+    @tagGroupFilter = { tags: [] } if tagGroupId is ""
+    tagGroup = _.find(@tagGroups, (group) ->
+      group.id is tagGroupId
+    )
+    @tagGroupFilter = tagGroup
+    @bindTags()
     @bindRecipeList()
 
   changeTagGroup: ->

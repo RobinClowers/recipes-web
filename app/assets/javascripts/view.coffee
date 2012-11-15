@@ -38,6 +38,9 @@ $ ->
   $("#tag-groups").change ->
     recipeBook.changeTagGroup()
 
+  $("#tag-group-list").change ->
+    recipeBook.filterTags @value
+
   $("#recipe-list").bind "keyup", "del", deleteRecipe
   $("#tag-groups").bind "keyup", "del", deleteTagGroup
   $("#description").wysiwyg initialContent: ""
