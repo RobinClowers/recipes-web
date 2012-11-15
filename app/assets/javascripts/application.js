@@ -14,7 +14,6 @@
 //= require jquery-ui-1.8.16.custom.min.js
 //= require jquery_ujs
 //
-//= require json2.js
 //= require jquery.twfile.js
 //= require underscore.min.js
 //= require jquery.hotkeys.js
