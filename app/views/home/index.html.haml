@@ -8,6 +8,7 @@
         %button#show-recipes Show Recipes
     %ol
       %li
+        %label Selected Tag Group
         %select#tag-groups{:size => "10"}
   .span9
     %ol.fields
@@ -18,8 +19,10 @@
         %button#add-tag-group Add Tag Group
     %ol#tag-group-fields.side-by-side
       %li
+        %label Available Tags
         %ol#ungrouped-tags.draggable
       %li
+        %label Tags in Group
         %ol#current-tag-group.draggable
   .clear
 
@@ -29,10 +32,10 @@
       %button#edit-tag-groups Edit Tag Groups
   %ol#selection.side-by-side
     %li
-      %label Tags
+      %label Filter by Tag
       %select#tag-list{:name => "tag-list", :size => "10"}
     %li
-      %label List
+      %label Selected Recipe
       %select#recipe-list{:name => "recipe-list", :size => "10"}
   %ol#recipe-fields.fields
     %li
