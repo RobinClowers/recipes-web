@@ -31,8 +31,9 @@ class window.RecipeBook
         item.trim()
 
     @load = =>
-      $.getJSON('/recipes', @loadRecipes)
-      $.getJSON('/tag_groups', @loadTagGroups)
+      $.getJSON '/recipes', (recipes) =>
+        @loadRecipes(recipes)
+        $.getJSON('/tag_groups', @loadTagGroups)
 
     @loadRecipes = (recipes) =>
       @recipes = if recipes then recipes else []
