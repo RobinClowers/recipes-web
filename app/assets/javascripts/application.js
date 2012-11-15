@@ -19,4 +19,8 @@
 //= require jquery.hotkeys.js
 //= require jwysiwyg/jquery.wysiwyg.js
 
+//= require collections/tag_groups
+//= require controllers/recipes_controller
+//= require controllers/tag_groups_controller
+//= require view
 //= require_tree .

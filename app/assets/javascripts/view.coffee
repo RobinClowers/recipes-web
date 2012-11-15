@@ -1,6 +1,6 @@
 addTagGroup = (e) ->
   e.preventDefault()
-  recipeBook.addTagGroup()
+  tagGroupsController.addTagGroup()
 
 editTagGroups = (e) ->
   e.preventDefault()
@@ -14,32 +14,40 @@ showRecipes = (e) ->
 
 saveClick = (e) ->
   e.preventDefault()
-  recipeBook.saveRecipe()
+  recipesController.saveRecipe()
 
 deleteRecipe = ->
-  recipeBook.deleteRecipe @value
+  recipesController.deleteRecipe @value
 
 deleteTagGroup = ->
-  recipeBook.deleteTagGroup @value
+  tagGroupsController.deleteTagGroup @value
 
 $ ->
-  window.recipeBook = new RecipeBook()
-  recipeBook.init()
+  window.recipes = new Recipes()
+  window.tagGroups = new TagGroups()
+  window.recipesController = new RecipesController(recipes, tagGroups)
+  window.tagGroupsController = new TagGroupsController(recipes, tagGroups)
+  recipes.load( =>
+    tagGroups.load( =>
+      recipesController.load()
+      tagGroupsController.load()
+    )
+  )
   $("#add-tag-group").click addTagGroup
   $("#edit-tag-groups").click editTagGroups
   $("#show-recipes").click showRecipes
   $("#save").click saveClick
   $("#recipe-list").change ->
-    recipeBook.changeRecipe @value
+    recipesController.changeRecipe @value
 
   $("#tag-list").change ->
-    recipeBook.filterRecipes @value
+    recipesController.filterRecipes @value
 
   $("#tag-groups").change ->
-    recipeBook.changeTagGroup()
+    tagGroupsController.changeTagGroup()
 
   $("#tag-group-list").change ->
-    recipeBook.filterTags @value
+    recipesController.filterTags @value
 
   $("#recipe-list").bind "keyup", "del", deleteRecipe
   $("#tag-groups").bind "keyup", "del", deleteTagGroup
