@@ -40,7 +40,7 @@ class window.RecipeBook
       @newRecipe()
       @buildTagIndex()
       @bindTags()
-      @bindList()
+      @bindRecipeList()
       @changeTagGroup()
 
     @loadTagGroups = (tagGroups) =>
@@ -66,7 +66,7 @@ class window.RecipeBook
     @isFilterSet = ->
       typeof (@tagFilter) isnt "undefined" and @tagFilter isnt ""
 
-    @bindList = ->
+    @bindRecipeList = ->
       list = $("#recipe-list")
       @clearForm()
       list.find("option").remove()
@@ -133,7 +133,7 @@ class window.RecipeBook
   filterRecipes: (tag) ->
     @tagFilter = ""  if tag is ""
     @tagFilter = tag
-    @bindList()
+    @bindRecipeList()
 
   changeTagGroup: ->
     groupName = $("#tag-groups option:selected").text()
@@ -164,7 +164,7 @@ class window.RecipeBook
         type: 'put'
         dataType: 'json'
         data: recipe: @recipe)
-    @bindList()
+    @bindRecipeList()
     @bindTags()
     @changeRecipe @recipe.id
 
@@ -178,7 +178,7 @@ class window.RecipeBook
         type: 'DELETE'
         dataType: 'json'
         data: @recipe)
-      @bindList()
+      @bindRecipeList()
       @buildTagIndex()
       @bindTags()
 
