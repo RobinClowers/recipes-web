@@ -33,7 +33,7 @@ class @TagGroupsController
       newTag = @cloneTag(ui.draggable)
       $(event.target).append newTag
       @currentTagGroup.tags.push newTag.text()
-      @saveCurrentTagGroup()
+      @tagGroups.update(@currentTagGroup)
 
     @ungroupTag = (event, ui) =>
       newTag = @cloneTag(ui.draggable)
@@ -41,7 +41,7 @@ class @TagGroupsController
       @currentTagGroup.tags = _.filter(@currentTagGroup.tags, (tag) ->
         tag isnt newTag.text()
       )
-      @saveCurrentTagGroup()
+      @tagGroups.update(@currentTagGroup)
 
     @cloneTag = (tag) ->
       $(tag).remove().clone().removeAttr("style").draggable()
@@ -58,12 +58,6 @@ class @TagGroupsController
       tags: []
     @bindCurrentTagGroup()
     @bindUngroupedTags()
-
-  saveCurrentTagGroup: ->
-    $.ajax("/tag_groups/#{@currentTagGroup.id}",
-      type: 'put'
-      dataType: 'json'
-      data: tag_group: @currentTagGroup)
 
   deleteTagGroup: (groupName) ->
     if confirm("Are you sure you want to delete this tag group?")

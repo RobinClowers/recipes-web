@@ -19,7 +19,19 @@ class @TagGroups
 
   create: (group) ->
     @groups.push group
-    $.post("/tag_groups", tag_group: group, dataType: 'json')
+    $.ajax("/tag_groups/",
+      type: 'post'
+      dataType: 'json'
+      data: tag_group: group
+      success: (newGroup) =>
+        group.id = newGroup.id
+    )
+
+  update: (group) ->
+    $.ajax("/tag_groups/#{group.id}",
+      type: 'put'
+      dataType: 'json'
+      data: tag_group: group)
 
   deleteByName: (groupName) ->
     id = _.find(@groups, (group) ->
