@@ -46,6 +46,7 @@ class @Recipes
         success: (newRecipe) =>
           done()
       )
+    @buildTagIndex()
 
   deleteById: (id, done) ->
     @recipes = _.filter(@recipes, (recipe) ->
