@@ -23,6 +23,9 @@ deleteTagGroup = ->
   tagGroupsController.deleteTagGroup @value
 
 $ ->
+  $(document).ajaxStart -> $("#loading").show()
+  $(document).ajaxStop -> $("#loading").hide()
+
   window.recipes = new Recipes()
   window.tagGroups = new TagGroups()
   window.recipesController = new RecipesController(recipes, tagGroups)
