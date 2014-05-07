@@ -28,7 +28,7 @@ end
 
 gem 'haml-rails'
 gem 'jquery-rails'
-gem 'mongo_mapper'
+gem 'mongo_mapper', '~> 0.12.0'
 gem 'bson_ext'
 
 # To use ActiveModel has_secure_password
